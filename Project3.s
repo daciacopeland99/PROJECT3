@@ -138,6 +138,12 @@
     lw $a2, 4($sp)
     lw $a0, 8($sp)
     addi $sp, $sp, 12
+    
+    addi $sp, $sp, -8 #allocating memory for stack
+    sw $ra, 0($sp) #storing return address
+    sw $s3, 4($sp) #storing s register so it is not overwritten
+    beq $a1, $0, return_zero #base case
+    addi $a1, $a1, -1 #length - 1, so to start at end of string
 
         asciiConversions:
             blt $t0, 48, isInvalid #if char is before 0 in ascii table, the input is invalid

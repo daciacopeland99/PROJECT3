@@ -91,6 +91,11 @@
         jal DecimalVersion #call to function
         lw $v0, 0($s0)
         addi $sp, $sp, 4
+        
+        #print result
+        move $a0, $v0
+        li $v0, 1
+        syscall
 
         greatestPower:
             beq $s1, 0, asciiConversions

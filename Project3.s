@@ -166,5 +166,10 @@
         number:
             addi $t0, $t0, -48
             j More
+        More:
+            mul $s3, $s3, $a2 #multiplying the byte x the exponentiated base (starts at 1(35^0 = 1))
+            mul $a2, $a2, 35 #multiplying the exponentiated base by 35 to get next power (35^1 ...)
+            addi $sp, $sp, -12
+            sw $a1, 0($sp)
             
            

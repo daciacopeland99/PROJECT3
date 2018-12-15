@@ -86,6 +86,11 @@
 
         addi $sp, $sp, -12
         sw $a1, 0($sp) #string length
+        sw $a2, 4($sp) #ex. base
+        sw $a0, 8($sp)
+        jal DecimalVersion #call to function
+        lw $v0, 0($s0)
+        addi $sp, $sp, 4
 
         greatestPower:
             beq $s1, 0, asciiConversions

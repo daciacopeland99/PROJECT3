@@ -101,23 +101,18 @@
         addi $sp $sp 4 #deallocating the memory
         jr $ra
 
-        multiplication:
-            mult $t0, $t3 #multipy and store in LO
-            mflo $t4, #move value in LO to $t4
-            add $t5, $t5, $t4 #sum
-            beq $t3, 1 end
-            div $t3, $s0 #divide and store in LO
-            mflo $t3
-            add $t2, $t2, 1
-            lb $t0, 0($t2)
-            j asciiConversions
-
         end:
             move $a0, $t5 #move value to $a0
             li $v0, 1 #print value
             syscall
             li $v0, 10 #end program
             syscall
+            
+        isEmpty:
+            la $a0, emptyInput #loads string/message
+            li $v0, 4 #prints string
+            syscall
+
 
         asciiConversions:
             blt $t0, 48, isInvalid #if char is before 0 in ascii table, the input is invalid
@@ -139,11 +134,7 @@
         number:
             addi $t0, $t0, -48
             j multiplication
-
-        isEmpty:
-            la $a0, emptyInput #loads string/message
-            li $v0, 4 #prints string
-            syscall
+            
 
             li $v0, 10 #end of program
             syscall

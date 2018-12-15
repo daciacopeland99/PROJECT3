@@ -112,6 +112,12 @@
             la $a0, emptyInput #loads string/message
             li $v0, 4 #prints string
             syscall
+            li $v0, 10 #end of program
+            syscall
+
+        isTooLong:
+            la $a0, longInput #loads string/message
+            li $v0, 4 #prints string
 
 
         asciiConversions:
@@ -135,13 +141,6 @@
             addi $t0, $t0, -48
             j multiplication
             
-
-            li $v0, 10 #end of program
-            syscall
-
-        isTooLong:
-            la $a0, longInput #loads string/message
-            li $v0, 4 #prints string
             syscall
 
             li $v0, 10 #end of program

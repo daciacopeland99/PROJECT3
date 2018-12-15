@@ -3,8 +3,10 @@
     longInput: .asciiz "Input it is too long." #messgae for string that has more than 4 characters
     invalidInput: .asciiz "Invalid base-35 number." #message for string that includes one or more characters not in set
     userInput: .space 1000
+
 .text
     main:
+
         li $v0, 8 #syscall to read string
         la $a0, userInput #stores address of string
         li $a1, 500 #create ample space for string input
@@ -44,7 +46,7 @@
             addi $t1, $t1, 1
             beq $t0, 10, restart
             beq $t0, 0, restart
-            bne $t0, 32, isInvalid #jump to isInvalid branch if not equal
+            bne $t0, 32, CorrectMessage #jump to isInvalid branch if not equal
             j viewRemaining
 
         restart:
@@ -58,7 +60,7 @@
         addi $t2, $t2, -1
 
         stringLength:
-            lb $t0, ($t2)
+           lb $t0, ($t2)
             addi $t2, $t2, 1
             addi $t1, $t1, 1 
             beq $t0, 10, callconversionfunc
@@ -68,22 +70,35 @@
             move $a1, $t1
             j stringLength
 
+        CorrectMessage:
+            beq $t1, 1, isInvalid
+            beq $t1, 2, isInvalid
+            beq $t1, 3, isInvalid
+            beq $t1, 4, isInvalid
+           
 callconversionfunc:
     sub $t2, $t2, $t1 #move ptr back to start of string
     addi $sp, $sp, -4 #allocating memory for stack
-    sw $ra, 0($sp) #only return address
+    sw $ra, 0($sp) #return address
+
     move $a0, $t2
-    #li $a1, 3 #string length !! 
     li $a2, 1 #exponentiated base
+
+    addi $sp, $sp, -12
+    sw $a1, 0($sp) #string length
+    sw $a2, 4($sp) #ex. base
+    sw $a0, 8($sp)
     jal DecimalVersion #call to function
+    lw $v0, 0($sp)
+    addi $sp, $sp, 4
 
     #print result
     move $a0, $v0
     li $v0, 1
     syscall
     
-    lw $ra, 0($sp) 
-    addi $sp, $sp, 4 #deallocating the memory
+    lw $ra, 0($sp)
+    addi $sp $sp 4 #deallocating the memory
     jr $ra
 
         end:
@@ -120,6 +135,11 @@ callconversionfunc:
             jr $ra
 
 DecimalVersion:
+    lw $a1, 0($sp)
+    lw $a2, 4($sp)
+    lw $a0, 8($sp)
+    addi $sp, $sp, 12
+
     addi $sp, $sp, -8 #allocating memory for stack
     sw $ra, 0($sp) #storing return address
     sw $s3, 4($sp) #storing s register so it is not overwritten
@@ -150,10 +170,16 @@ DecimalVersion:
             jal More
     #mul $s3, $s3, $a2 #multiplying the byte x the exponentiated base (starts at 1(35^0 = 1))
     #mul $a2, $a2, 35 #multiplying the exoonentiated base by 35 to get next power (35^1 ...)
-    More:
-        mul $s3, $s3, $a2 #multiplying the byte x the exponentiated base (starts at 1(35^0 = 1))
-        mul $a2, $a2, 35 #multiplying the exponentiated base by 35 to get next power (35^1 ...)
-        jal DecimalVersion
+        More:
+            mul $s3, $s3, $a2 #multiplying the byte x the exponentiated base (starts at 1(35^0 = 1))
+            mul $a2, $a2, 35 #multiplying the exponentiated base by 35 to get next power (35^1 ...)
+            addi $sp, $sp, -12
+            sw $a1, 0($sp)
+            sw $a2, 4($sp)
+            sw $a0, 8($sp)
+            jal DecimalVersion
+            lw $v0, 0($sp)
+            addi $sp, $sp, 4
     # a0=str addr, a1=strlen, a2=exponentiated base
     
     #jal DecimalVersion #call function again (loop)
@@ -161,10 +187,17 @@ DecimalVersion:
         lw $ra, 0($sp)      
         lw $s3, 4($sp)
         addi $sp, $sp, 8
+
+        addi $sp, $sp, -4
+        sw $v0, 0($sp)
         jr $ra
+
 return_zero:
     li $v0, 0
     lw $ra, 0($sp)
     lw $s3, 4($sp)
     addi $sp, $sp, 8
+
+    addi $sp, $sp, -4
+    sw $v0, 0($sp)
     jr $ra

@@ -118,6 +118,14 @@
         isTooLong:
             la $a0, longInput #loads string/message
             li $v0, 4 #prints string
+            syscall
+
+            li $v0, 10 #end of program
+            syscall
+
+        isInvalid:
+            la $a0, invalidInput #loads string/message
+            
 
 
         asciiConversions:
@@ -141,13 +149,7 @@
             addi $t0, $t0, -48
             j multiplication
             
-            syscall
-
-            li $v0, 10 #end of program
-            syscall
-
-        isInvalid:
-            la $a0, invalidInput #loads string/message
+           
             li $v0, 4 #prints string
             syscall
 

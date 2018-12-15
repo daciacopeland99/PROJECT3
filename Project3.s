@@ -133,7 +133,11 @@
 
             jr $ra
             
-
+  DecimalVersion:
+    lw $a1, 0($sp)
+    lw $a2, 4($sp)
+    lw $a0, 8($sp)
+    addi $sp, $sp, 12
 
         asciiConversions:
             blt $t0, 48, isInvalid #if char is before 0 in ascii table, the input is invalid

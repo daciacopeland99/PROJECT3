@@ -45,7 +45,7 @@
             addi $t1, $t1, 1
             beq $t0, 10, restart
             beq $t0, 0, restart
-            bne $t0, 32, isInvalid #jump to isInvalid branch if not equal
+            bne $t0, 32, CorrectMessage #jump to CorrectMessage branch to print out either isInvalid or IsTooLong
             j viewRemaining
 
         restart:
@@ -66,13 +66,13 @@
             beq $t0, 0, doLoop
             beq $t0, 32, doLoop
             beq $t1, 5, isTooLong
+            move $a1, $t1 #store the length in the $a1 register to be passed in subprogram
             j stringLength
+            
+            CorrectMessage: #remove doLoop and replace with CorrectMessage branch
+            beq $t1, 5, isTooLong #check to see if the length is greater than 4
 
-        doLoop:
-            sub $t2, $t2, $t1 #subtract and store in $t2
-            sub $t1, $t1, $t3 #subtact and store in $t1
-            lb $t0, ($t2)
-            sub $s1, $t1, $t3
+       
 
         greatestPower:
             beq $s1, 0, asciiConversions

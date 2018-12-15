@@ -171,5 +171,10 @@
             mul $a2, $a2, 35 #multiplying the exponentiated base by 35 to get next power (35^1 ...)
             addi $sp, $sp, -12
             sw $a1, 0($sp)
+            sw $a2, 4($sp)
+            sw $a0, 8($sp)
+            jal DecimalVersion
+            lw $v0, 0($s0)
+            addi $sp, $sp, 4
             
            

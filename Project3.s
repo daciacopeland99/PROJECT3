@@ -144,8 +144,9 @@
     sw $s3, 4($sp) #storing s register so it is not overwritten
     beq $a1, $0, return_zero #base case
     addi $a1, $a1, -1 #length - 1, so to start at end of string
-
-        asciiConversions:
+    add $t0, $a0, $a1 #getting address of the last byte 
+    lb $s3, 0($t0)  #loading the byte ^
+    #INSERT THE CODE TO CONVERT BYTE TO DIGIT
             blt $t0, 48, isInvalid #if char is before 0 in ascii table, the input is invalid
             blt $t0, 58, number
             blt $t0, 65, isInvalid

@@ -96,13 +96,10 @@
         move $a0, $v0
         li $v0, 1
         syscall
-
-        greatestPower:
-            beq $s1, 0, asciiConversions
-            mult $t3, $s0
-            mflo $t3
-            sub $s1, $s1, 1
-            j greatestPower
+        
+        lw $ra, 0($sp)
+        addi $sp $sp 4 #deallocating the memory
+        jr $ra
 
         multiplication:
             mult $t0, $t3 #multipy and store in LO

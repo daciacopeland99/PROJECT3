@@ -157,14 +157,14 @@
 
         upperCase:
             addi $t0, $t0, -55
-            j multiplication #jump to multiplication branch
+            j More #jump to more branch
 
         lowerCase:
             addi $t0, $t0, -87
-            j multiplication
+            j More
 
         number:
             addi $t0, $t0, -48
-            j multiplication
+            j More
             
            

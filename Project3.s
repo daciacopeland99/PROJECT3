@@ -75,6 +75,12 @@
             beq $t1, 2, isInvalid
             beq $t1, 3, isInvalid
             beq $t1, 4, isInvalid
+            
+      callconversionfunc:
+        sub $t2, $t2, $t1 #move ptr back to start of string
+        addi $sp, $sp, -4 #allocating memory for stack
+        sw $ra, 0($sp) #return address
+
 
         greatestPower:
             beq $s1, 0, asciiConversions

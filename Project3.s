@@ -80,7 +80,12 @@
         sub $t2, $t2, $t1 #move ptr back to start of string
         addi $sp, $sp, -4 #allocating memory for stack
         sw $ra, 0($sp) #return address
+        
+        move $a0, $t2
+        li $a2, 1 #exponentiated base
 
+        addi $sp, $sp, -12
+        sw $a1, 0($sp) #string length
 
         greatestPower:
             beq $s1, 0, asciiConversions

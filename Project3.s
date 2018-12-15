@@ -62,17 +62,19 @@
             lb $t0, ($t2)
             addi $t2, $t2, 1
             addi $t1, $t1, 1
-            beq $t0, 10, doLoop
-            beq $t0, 0, doLoop
-            beq $t0, 32, doLoop
+            beq $t0, 10, callconversionfunc
+            beq $t0, 0, callconversionfunc
+            beq $t0, 32, callconversionfunc
             beq $t1, 5, isTooLong
             move $a1, $t1 #store the length in the $a1 register to be passed in subprogram
             j stringLength
             
             CorrectMessage: #remove doLoop and replace with CorrectMessage branch
             beq $t1, 5, isTooLong #check to see if the length is greater than 4
-
-       
+            beq $t1, 1, isInvalid
+            beq $t1, 2, isInvalid
+            beq $t1, 3, isInvalid
+            beq $t1, 4, isInvalid
 
         greatestPower:
             beq $s1, 0, asciiConversions

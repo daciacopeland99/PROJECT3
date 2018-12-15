@@ -177,4 +177,10 @@
             lw $v0, 0($s0)
             addi $sp, $sp, 4
             
+            add $v0, $s3, $v0   #returning last byte plus decimal version of the rest of number
+            lw $ra, 0($sp)      
+            lw $s3, 4($sp)
+            addi $sp, $sp, 8
+
+            addi $sp, $sp, -4
            
